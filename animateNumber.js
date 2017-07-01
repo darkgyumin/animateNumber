@@ -2,13 +2,15 @@
     if(typeof module != 'undefined' && typeof exports == 'object') {
         module.exports = factory();
     } else {
-        root.$min = factory();
+        var obj = (root.$min == undefined) 
+                    ? factory() : Object.assign(root.$min, factory());
+        root.$min = obj;
     }
 }(this, function() {
-    let lib = {};
+    var lib = {};
 
     lib.animateNumber = function(elem, targetNumber, duration, callback) {
-        let startNumber = elem.innerHTML;
+        var startNumber = elem.innerHTML;
 
         if(isNaN(startNumber)) {
             console.warn('not a number');
@@ -16,14 +18,14 @@
         }
         startNumber = parseInt(startNumber);
 
-        let startTime = new Date().valueOf();
+        var startTime = new Date().valueOf();
 
         function exec() {
-            let passed = new Date().valueOf() - startTime;
-            let percent = passed / duration;
+            var passedTime = new Date().valueOf() - startTime;
+            var percent = passedTime / duration;
 
-            if(passed <= duration) {
-                let changed = startNumber + parseInt(targetNumber, 10) * percent;
+            if(passedTime <= duration) {
+                var changed = startNumber + parseInt(targetNumber, 10) * percent;
 
                 elem.innerHTML = Math.floor(changed);
 
